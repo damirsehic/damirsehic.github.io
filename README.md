@@ -9,8 +9,7 @@ Simple static blog using plain HTML/CSS templates and Markdown posts.
 - `static/style.css`: site styles
 - `scripts/build.js`: executable build script (Node)
 - `scripts/dev.js`: local dev server with watch + auto-refresh
-- `.github/workflows/deploy.yml`: GitHub Pages deploy workflow
-- `scripts/publish.sh`: build locally and push branch to trigger deploy
+- `scripts/publish.sh`: build locally and force-push `dist/` to a Pages branch
 
 ## Write a post
 
@@ -56,10 +55,18 @@ Important: open the site via `http://localhost:4173` while developing. Live relo
 1. Push this repo to GitHub.
 2. In GitHub repo settings:
    - Go to **Pages**
-   - Source: **GitHub Actions**
-3. Push to `main` (or run `./scripts/publish.sh`).
+   - Source: **Deploy from a branch**
+   - Branch: `gh-pages` (or whatever branch you publish to), folder: `/ (root)`
+3. Run `./scripts/publish.sh` to:
+   - build `dist/`
+   - create a commit whose root is exactly `dist/` contents
+   - force-push that commit to the target branch (default: `gh-pages`)
 
-The action builds from Markdown and deploys `dist/`.
+Optional branch/remote override:
+
+```bash
+./scripts/publish.sh <branch> <remote>
+```
 
 ## Optional custom domain
 
